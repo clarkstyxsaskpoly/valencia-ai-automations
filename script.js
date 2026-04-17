@@ -3,6 +3,7 @@ document.body.classList.add("is-ready");
 const menuButton = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector(".site-nav");
 const contactForm = document.querySelector(".contact-form");
+const currentPath = window.location.pathname.split("/").pop() || "index.html";
 
 if (menuButton && siteNav) {
   menuButton.addEventListener("click", () => {
@@ -15,6 +16,20 @@ if (menuButton && siteNav) {
       siteNav.classList.remove("is-open");
       menuButton.setAttribute("aria-expanded", "false");
     });
+  });
+}
+
+if (siteNav) {
+  siteNav.querySelectorAll("a").forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || href.startsWith("#")) {
+      return;
+    }
+
+    const normalizedHref = href.replace("./", "");
+    if (normalizedHref === currentPath) {
+      link.setAttribute("aria-current", "page");
+    }
   });
 }
 
@@ -38,7 +53,7 @@ if (contactForm) {
 }
 
 const animatedBlocks = document.querySelectorAll(
-  ".hero-copy, .hero-visual, .section-heading, .intro-card, .service-grid, .process-grid, .use-case-grid, .benefit-grid, .pricing-grid, .faq-list, .contact-panel, .site-footer"
+  ".hero-copy, .hero-visual, .page-copy-block, .page-visual, .section-heading, .feature-grid, .process-grid, .pricing-grid, .portfolio-preview-grid, .portfolio-grid, .case-study-grid, .info-grid, .timeline-grid, .benefit-grid, .contact-panel, .contact-cta-card, .faq-list, .service-columns, .audience-grid, .support-grid, .site-footer"
 );
 
 const observer = new IntersectionObserver(
